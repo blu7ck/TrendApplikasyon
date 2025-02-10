@@ -1,0 +1,100 @@
+/* Arka plan ve genel stiller */
+body {
+  background: #3a3a3a;
+  color: white;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Ana container */
+.app-container {
+  padding: 20px;
+  text-align: center;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #222;
+  color: white;
+  padding: 10px;
+}
+
+/* Güncelleme saati */
+.update-time {
+  font-size: 14px;
+}
+
+/* İçerik bölümü */
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Platform kutuları */
+.platform-container {
+  width: 45%;
+  padding: 15px;
+  border-radius: 8px;
+  color: white;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  text-align: left;
+}
+
+/* Platformlar için özel renkler */
+.reddit {
+  background: #ff4500;
+}
+
+.twitter {
+  background: #1da1f2;
+}
+
+.youtube {
+  background: #ff0000;
+}
+
+.instagram {
+  background: #c13584;
+}
+
+/* Liste düzeni */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+/* Küçük resimler */
+li img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+/* Bağlantılar */
+a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  max-width: 80%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+a:hover {
+  text-decoration: underline;
+}

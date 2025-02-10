@@ -1,0 +1,8 @@
+com\trendapp\appv01\instagram\service\InstagramService.class
+com\trendapp\appv01\youtube\service\YouTubeService.class
+com\trendapp\appv01\x\service\TwitterService.class
+com\trendapp\appv01\youtube\controller\YouTubeController.class
+com\trendapp\appv01\x\controller\TwitterController.class
+com\trendapp\appv01\instagram\controller\InstagramController.class
+com\trendapp\appv01\reddit\controller\RedditController.class
+com\trendapp\appv01\Trendappv01Application.class
