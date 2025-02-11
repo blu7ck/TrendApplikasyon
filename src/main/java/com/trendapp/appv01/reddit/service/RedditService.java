@@ -10,9 +10,8 @@ import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Base64;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.*;
+import java.nio.charset.StandardCharsets;
 
 @Service
 public class RedditService {
@@ -26,41 +25,29 @@ public class RedditService {
     @Value("${reddit.username}")
     private String username;
 
-    @Value("${reddit.password:DEFAULT_PASSWORD}")
+    @Value("${reddit.password}")
     private String password;
-
 
     @Value("${reddit.useragent}")
     private String userAgent;
 
-    private String accessToken; // Access token değişkeni eklendi
+    private String accessToken;
 
     @PostConstruct
     public void init() {
-        authenticate(); // ✅ Spring değerleri enjekte ettikten sonra çalıştır
+        authenticate();
     }
 
-
-    @PostConstruct
-    public void checkConfig() {
-        System.out.println("🔍 Reddit Config - Username: " + username);
-        System.out.println("🔍 Reddit Config - Password: " + (password == null ? "NULL" : "LOADED"));
-    }
-
-    // 🔥 TOKEN ALMA METODU
     public void authenticate() {
         try {
-            System.out.println("🔍 Reddit Config - Username: " + username);
-            System.out.println("🔍 Reddit Config - Password: " + password); // DEBUG LOG
-
             if (password == null || password.isEmpty()) {
                 throw new IllegalArgumentException("Reddit password is missing! Check application.properties or environment variables.");
             }
 
             HttpClient client = HttpClient.newHttpClient();
-            String encodedPassword = URLEncoder.encode(password, "UTF-8");
+            String encodedPassword = URLEncoder.encode(password, StandardCharsets.UTF_8);
             String auth = "grant_type=password&username=" + username + "&password=" + encodedPassword;
-            String encodedCredentials = Base64.getEncoder().encodeToString((clientId + ":" + clientSecret).getBytes());
+            String encodedCredentials = Base64.getEncoder().encodeToString((clientId + ":" + clientSecret).getBytes(StandardCharsets.UTF_8));
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://www.reddit.com/api/v1/access_token"))
@@ -71,8 +58,6 @@ public class RedditService {
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            System.out.println("🔍 Reddit Auth Response: " + response.body()); // API CEVABINI GÖRMEK İÇİN
 
             JSONObject json = new JSONObject(response.body());
 
@@ -88,24 +73,21 @@ public class RedditService {
         }
     }
 
-
-    // **TOKEN GETİRME METODU EKLENDİ** ✅
     public String getAccessToken() {
         if (accessToken == null) {
-            authenticate(); // Eğer token yoksa, tekrar al
+            authenticate();
         }
         return accessToken;
     }
 
-    // 🔥 POPÜLER POSTLARI ÇEKEN METOT
-    public List<String> fetchTopPosts() { // ✅ Parametresiz hale getirdik
-        List<String> postLinks = new ArrayList<>();
+    public List<Map<String, String>> fetchTopPosts() {
+        List<Map<String, String>> postsList = new ArrayList<>();
         try {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create("https://oauth.reddit.com/r/popular/top.json?limit=10"))
                     .header("Authorization", "Bearer " + accessToken)
-                    .header("User-Agent", "TrendApp/1.0")
+                    .header("User-Agent", userAgent)
                     .GET()
                     .build();
 
@@ -115,13 +97,17 @@ public class RedditService {
 
             for (int i = 0; i < posts.length(); i++) {
                 JSONObject post = posts.getJSONObject(i).getJSONObject("data");
-                String title = post.getString("title");
-                String url = post.getString("url");
-                postLinks.add(title + " - " + url);
+
+                Map<String, String> postDetails = new HashMap<>();
+                postDetails.put("title", post.getString("title"));
+                postDetails.put("url", post.getString("url"));
+                postDetails.put("thumbnail", post.has("thumbnail") ? post.getString("thumbnail") : null);
+
+                postsList.add(postDetails);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return postLinks; // ✅ Artık gerçekten bir liste döndürüyor
+        return postsList;
     }
 }

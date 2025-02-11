@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { fetchRedditData, fetchTwitterData, fetchYouTubeData, fetchInstagramData } from "./api";
+import { fetchRedditData, fetchYouTubeData } from "./api";
 import "./App.css";
 
 function App() {
     const [reddit, setReddit] = useState([]);
-    const [twitter, setTwitter] = useState([]);
+    //    const [twitter, setTwitter] = useState([]);
     const [youtube, setYouTube] = useState([]);
-    const [instagram, setInstagram] = useState([]);
+    //   const [instagram, setInstagram] = useState([]);
     const [updateTime, setUpdateTime] = useState("");
 
     useEffect(() => {
@@ -17,17 +17,17 @@ function App() {
             console.log("✅ Reddit Verisi:", redditData);
             setReddit(redditData);
 
-            const twitterData = await fetchTwitterData();
-            console.log("✅ Twitter Verisi:", twitterData);
-            setTwitter(twitterData);
+            //   const twitterData = await fetchTwitterData();
+            //  console.log("✅ Twitter Verisi:", twitterData);
+            //  setTwitter(twitterData);
 
             const youtubeData = await fetchYouTubeData();
             console.log("✅ YouTube Verisi:", youtubeData);
             setYouTube(youtubeData);
 
-            const instagramData = await fetchInstagramData();
-            console.log("✅ Instagram Verisi:", instagramData);
-            setInstagram(instagramData);
+            //    const instagramData = await fetchInstagramData();
+            //   console.log("✅ Instagram Verisi:", instagramData);
+            //   setInstagram(instagramData);
 
             setUpdateTime(new Date().toLocaleTimeString());
         };
@@ -47,8 +47,8 @@ function App() {
             <div className="content">
                 <PlatformSection title="Reddit" data={reddit} className="reddit" />
                 <PlatformSection title="YouTube" data={youtube} className="youtube" />
-                <PlatformSection title="Twitter" data={twitter} className="twitter" />
-                <PlatformSection title="Instagram" data={instagram} className="instagram" />
+                {/*<PlatformSection title="Twitter" data={twitter} className="twitter" />*/}
+                {/*<PlatformSection title="Instagram" data={instagram} className="instagram" />*/}
             </div>
         </div>
     );

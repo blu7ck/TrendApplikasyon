@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/reddit")
@@ -18,12 +19,12 @@ public class RedditController {
     }
 
     @GetMapping("/top")
-    public List<String> fetchTopPosts() {
+    public List<Map<String, String>> fetchTopPosts() {
         return redditService.fetchTopPosts();
     }
 
     @GetMapping("/token")
     public String getAccessToken() {
-        return redditService.getAccessToken(); // ✅ ARTIK SORUNSUZ ÇALIŞACAK
+        return redditService.getAccessToken();
     }
 }

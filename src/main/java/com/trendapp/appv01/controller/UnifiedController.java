@@ -1,9 +1,9 @@
 package com.trendapp.appv01.controller;
 
 import com.trendapp.appv01.reddit.service.RedditService;
-import com.trendapp.appv01.x.service.TwitterService;
+
 import com.trendapp.appv01.youtube.service.YouTubeService;
-import com.trendapp.appv01.instagram.service.InstagramService;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -17,16 +17,16 @@ import java.util.Map;
 public class UnifiedController {
 
     private final RedditService redditService;
-    private final TwitterService twitterService;
-    private final YouTubeService youtubeService;
-    private final InstagramService instagramService;
 
-    public UnifiedController(RedditService redditService, TwitterService twitterService,
-                             YouTubeService youtubeService, InstagramService instagramService) {
+    private final YouTubeService youtubeService;
+
+
+    public UnifiedController(RedditService redditService,
+                             YouTubeService youtubeService) {
         this.redditService = redditService;
-        this.twitterService = twitterService;
+
         this.youtubeService = youtubeService;
-        this.instagramService = instagramService;
+
     }
 
     @GetMapping("/trending")
@@ -35,9 +35,9 @@ public class UnifiedController {
         response.put("lastUpdated", LocalDateTime.now().toString()); // Güncellenme zamanı
 
         response.put("reddit", redditService.fetchTopPosts());
-        response.put("twitter", twitterService.fetchTrendingTweets());
+
         response.put("youtube", youtubeService.fetchTrendingVideos());
-        response.put("instagram", instagramService.fetchTopPosts());
+
 
         return response;
     }
