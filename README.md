@@ -2,7 +2,7 @@
 
 **TrendApp**, popüler platformlardan en güncel trend içerikleri bir araya getiren bir web uygulamasıdır.  
 Bu uygulama **Reddit** ve **YouTube** platformlarından **trend içerikleri** çekerek kullanıcıya sunar.  
-🚀 **React (Frontend) + Spring Boot (Backend) + Docker** teknolojileri kullanılarak geliştirilmiştir.
+🚀 **React + Spring Boot + Docker** teknolojileri kullanılarak geliştirilmiştir.
 
 ---
 
